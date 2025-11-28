@@ -1,0 +1,13 @@
+<!-- Search Area Start -->
+<div class="search-wrap">
+    <div class="search-inner">
+        <i class="fas fa-times search-close" id="search-close"></i>
+        <div class="search-cell">
+            <form method="get" action="{{ route('rooms.index') }}">
+                <div class="search-field-holder">
+                    <input type="search" name="search" class="main-search-input" placeholder="Cari kamar...">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

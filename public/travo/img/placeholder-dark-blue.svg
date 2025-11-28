@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- Dark Blue Placeholder -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+        <rect width="400" height="280" fill="#1976D2"/>
+        <text x="50%" y="50%" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" dominant-baseline="middle">
+            No Image Available
+        </text>
+    </svg>
+</body>
+</html>

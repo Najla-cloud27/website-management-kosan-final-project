@@ -1,0 +1,397 @@
+/**
+ * Custom Blue Theme Override for Kosan DiriQ
+ * Mengubah warna oranye template Travo menjadi warna biru
+ * 
+ * Warna Asli (Orange): #fa6741
+ * Warna Baru (Blue): #2196F3, #1976D2, #1565C0
+ */
+
+:root {
+    /* Override Primary Theme Color - dari Orange ke Blue */
+    --theme: #2196F3;          /* Primary Blue - pengganti #fa6741 */
+    --theme-hover: #1976D2;    /* Darker Blue untuk hover state */
+    --theme-dark: #1565C0;     /* Dark Blue untuk accent */
+    
+    /* Override Secondary Theme Color - tetap hijau tapi lebih modern */
+    --theme-2: #4CAF50;        /* Modern Green */
+    
+    /* Override Third Theme Color - dari kuning ke light blue */
+    --theme-3: #E3F2FD;        /* Light Blue - pengganti #f1ea78 */
+    
+    /* Background colors dengan aksen biru */
+    --bg: #F5F9FC;             /* Very Light Blue Background */
+    --bg-2: #E8F4F8;           /* Light Blue Background */
+}
+
+/* ===========================
+   Button Theme Color Override 
+   =========================== */
+
+.theme-btn {
+    background: #2196F3 !important;
+}
+
+.theme-btn::before {
+    background-color: #1976D2 !important;
+}
+
+.theme-btn.style-2 {
+    background-color: #4CAF50 !important;
+}
+
+.theme-btn.style-3 {
+    background-color: #E3F2FD !important;
+}
+
+.theme-btn.style-4:hover::before {
+    background-color: #2196F3 !important;
+}
+
+.theme-btn.style-5 {
+    color: #E3F2FD !important;
+}
+
+.theme-btn.style-5:hover::before {
+    background-color: #E3F2FD !important;
+}
+
+/* ===========================
+   Link Color Override
+   =========================== */
+
+.link-btns,
+.link-btns a {
+    color: #2196F3 !important;
+    border-bottom-color: #2196F3 !important;
+}
+
+/* ===========================
+   Header & Navigation
+   =========================== */
+
+.header-section .menu-item:hover > a,
+.header-section .menu-item.active > a {
+    color: #2196F3 !important;
+}
+
+.header-button .theme-btn {
+    background: #2196F3 !important;
+}
+
+/* ===========================
+   Hero Section
+   =========================== */
+
+.hero-section {
+    background-color: #E8F4F8 !important;
+}
+
+.hero-section .theme-btn {
+    background: #2196F3 !important;
+}
+
+.hero-section .booking-list-area {
+    background-color: #ffffff !important;
+    box-shadow: 0 10px 30px rgba(33, 150, 243, 0.15) !important;
+}
+
+.hero-section .booking-list .icon i {
+    color: #2196F3 !important;
+}
+
+.hero-section .booking-list .icon h6 {
+    color: #1976D2 !important;
+}
+
+/* ===========================
+   Icon & Shape Colors
+   =========================== */
+
+.icon-box,
+.feature-icon,
+.service-icon {
+    color: #2196F3 !important;
+}
+
+.icon-box.style-2,
+.feature-icon.style-2 {
+    background-color: #E3F2FD !important;
+}
+
+/* ===========================
+   Cards & Boxes
+   =========================== */
+
+.package-card:hover,
+.destination-card:hover,
+.room-card:hover {
+    border-color: #2196F3 !important;
+}
+
+.package-card .price,
+.room-card .price {
+    color: #2196F3 !important;
+}
+
+.badge.bg-theme,
+.badge-primary {
+    background-color: #2196F3 !important;
+}
+
+/* ===========================
+   CTA Section
+   =========================== */
+
+.cta-section {
+    background-color: #1976D2 !important;
+}
+
+/* ===========================
+   Footer
+   =========================== */
+
+.footer-section .footer-widget a:hover {
+    color: #2196F3 !important;
+}
+
+.footer-section .social-icon a:hover {
+    background-color: #2196F3 !important;
+    border-color: #2196F3 !important;
+}
+
+/* ===========================
+   Section Backgrounds
+   =========================== */
+
+.bg-theme {
+    background-color: #2196F3 !important;
+}
+
+.bg-theme-light {
+    background-color: #E3F2FD !important;
+}
+
+.text-theme {
+    color: #2196F3 !important;
+}
+
+/* ===========================
+   Swiper/Slider Controls
+   =========================== */
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #2196F3 !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #2196F3 !important;
+}
+
+/* ===========================
+   Form Elements
+   =========================== */
+
+.form-control:focus {
+    border-color: #2196F3 !important;
+    box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25) !important;
+}
+
+.form-check-input:checked {
+    background-color: #2196F3 !important;
+    border-color: #2196F3 !important;
+}
+
+/* ===========================
+   Breadcrumb
+   =========================== */
+
+.breadcrumb-wrapper {
+    background-color: #1976D2 !important;
+}
+
+/* ===========================
+   Nice Select Dropdown
+   =========================== */
+
+.nice-select:focus,
+.nice-select.open {
+    border-color: #2196F3 !important;
+}
+
+.nice-select .option:hover,
+.nice-select .option.focus,
+.nice-select .option.selected.focus {
+    background-color: #E3F2FD !important;
+    color: #1976D2 !important;
+}
+
+/* ===========================
+   Magnific Popup
+   =========================== */
+
+.mfp-close:hover,
+.mfp-arrow:hover {
+    color: #2196F3 !important;
+}
+
+/* ===========================
+   Animations & Hover Effects
+   =========================== */
+
+.image-box:hover .overlay {
+    background-color: rgba(33, 150, 243, 0.8) !important;
+}
+
+/* ===========================
+   Tabs & Nav Pills
+   =========================== */
+
+.nav-pills .nav-link.active {
+    background-color: #2196F3 !important;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link.active {
+    border-color: #2196F3 !important;
+    color: #2196F3 !important;
+}
+
+/* ===========================
+   Testimonial Section
+   =========================== */
+
+.testimonial-card .quote-icon {
+    color: #2196F3 !important;
+}
+
+.testimonial-card .rating i {
+    color: #FFC107 !important; /* Keep rating stars gold */
+}
+
+/* ===========================
+   Contact Section
+   =========================== */
+
+.contact-info-box .icon {
+    background-color: #E3F2FD !important;
+    color: #2196F3 !important;
+}
+
+/* ===========================
+   Responsive Adjustments
+   =========================== */
+
+@media (max-width: 991px) {
+    .header-section .menu-item.active > a {
+        color: #2196F3 !important;
+    }
+}
+
+/* ===========================
+   Additional Blue Overrides
+   =========================== */
+
+/* Package/Room Cards */
+.package-card-content h3 a:hover,
+.destination-card h3 a:hover {
+    color: #2196F3 !important;
+}
+
+.package-card .package-card-bottom .theme-btn {
+    background: #2196F3 !important;
+}
+
+/* Section Titles */
+.section-title .sub-title {
+    color: #2196F3 !important;
+}
+
+/* Service Box */
+.service-box-item:hover {
+    border-color: #2196F3 !important;
+}
+
+.service-box-item .icon i {
+    color: #2196F3 !important;
+}
+
+/* About Section */
+.about-button .theme-btn {
+    background: #2196F3 !important;
+}
+
+/* Array Buttons */
+.array-button button {
+    background-color: #2196F3 !important;
+    border-color: #2196F3 !important;
+}
+
+.array-button button:hover {
+    background-color: #1976D2 !important;
+    border-color: #1976D2 !important;
+}
+
+/* Nice Select Custom */
+.nice-select {
+    border-color: #e0e0e0 !important;
+}
+
+.nice-select:after {
+    border-bottom-color: #2196F3 !important;
+    border-right-color: #2196F3 !important;
+}
+
+/* Active Menu Item */
+.main-menu nav ul li.active > a {
+    color: #2196F3 !important;
+}
+
+.main-menu nav ul li > a:hover {
+    color: #2196F3 !important;
+}
+
+/* Border Top Override - Change Orange to Blue */
+.border-top,
+[class*="border-top"] {
+    border-top-color: #2196F3 !important;
+}
+
+.section-padding {
+    border-top-color: #E3F2FD !important;
+}
+
+/* Header Top Border */
+.header-top-section {
+    border-top: 3px solid #2196F3 !important;
+}
+
+/* Footer Border Top */
+.footer-section {
+    border-top: 2px solid #2196F3 !important;
+}
+
+/* Card Border Top */
+.card,
+.package-card,
+.service-box-item {
+    border-top-color: #2196F3 !important;
+}
+
+/* Divider/Separator */
+hr,
+.divider {
+    border-top-color: #E3F2FD !important;
+}
+
+/* ===========================
+   Dark Mode Support (Optional)
+   =========================== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --theme: #42A5F5; /* Lighter blue for dark mode */
+        --theme-hover: #2196F3;
+        --theme-dark: #1E88E5;
+    }
+}

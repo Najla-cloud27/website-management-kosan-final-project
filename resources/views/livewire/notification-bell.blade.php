@@ -1,0 +1,153 @@
+<div class="topbar-item">
+    <div class="dropdown">
+        <button aria-expanded="false" aria-haspopup="false"
+            class="topbar-link dropdown-toggle drop-arrow-none" data-bs-auto-close="outside"
+            data-bs-offset="0,24" data-bs-toggle="dropdown" type="button">
+            <i class="fs-xxl" data-lucide="bell"></i>
+            @if($unreadCount > 0)
+                <span class="badge text-bg-danger badge-circle topbar-badge">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+            @endif
+        </button>
+        <div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg" style="min-width: 360px; max-width: 400px;">
+            <div class="px-3 py-2 border-bottom">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="m-0 fs-md fw-semibold">Notifikasi</h6>
+                    </div>
+                    <div class="col-auto">
+                        @if($unreadCount > 0)
+                            <button wire:click="markAllAsRead" class="btn btn-sm btn-link text-success text-decoration-none p-0" title="Tandai Semua Dibaca">
+                                <i data-lucide="check-check" style="width: 16px; height: 16px;"></i>
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div data-simplebar style="max-height: 400px; overflow-y: auto;">
+                @forelse($notifications as $notification)
+                    <div class="dropdown-item notification-item py-2 {{ $notification->is_read ? '' : 'bg-light' }}" 
+                         wire:click="markAsRead({{ $notification->id }})" 
+                         style="cursor: pointer; white-space: normal; word-wrap: break-word;">
+                        <div class="d-flex align-items-start gap-2">
+                            <div class="flex-shrink-0 position-relative">
+                                <span class="avatar-sm rounded-circle bg-{{ $notification->is_read ? 'secondary' : 'primary' }} bg-opacity-10 d-flex align-items-center justify-content-center">
+                                    <i data-lucide="bell" style="width: 18px; height: 18px;" class="text-{{ $notification->is_read ? 'muted' : 'primary' }}"></i>
+                                </span>
+                                @if(!$notification->is_read)
+                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="flex-grow-1" style="min-width: 0;">
+                                <div class="fw-semibold text-dark mb-1" style="font-size: 0.875rem;">{{ $notification->title }}</div>
+                                <div class="text-muted mb-1" style="font-size: 0.8125rem; line-height: 1.4;">
+                                    {{ Str::limit($notification->message, 80) }}
+                                </div>
+                                <div class="text-muted" style="font-size: 0.75rem;">
+                                    <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+                                    {{ $notification->created_at->diffForHumans() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-4 text-muted">
+                        <i data-lucide="bell-off" style="width: 48px; height: 48px;" class="d-block mx-auto mb-2 opacity-25"></i>
+                        <p class="mb-0" style="font-size: 0.875rem;">Belum ada notifikasi</p>
+                    </div>
+                @endforelse
+            </div>
+            @if($notifications->count() > 0)
+                <a class="dropdown-item text-center text-primary text-decoration-none fw-semibold border-top py-2"
+                    href="javascript:void(0);" style="font-size: 0.875rem;">
+                    Lihat Semua Notifikasi
+                </a>
+            @endif
+        </div>
+    </div>
+</div>
+
+@script
+<script>
+    // Refresh notifications every 30 seconds
+    setInterval(() => {
+        $wire.refreshNotifications();
+    }, 30000);
+</script>
+@endscript
+
+@push('styles')
+<style>
+    /* Notification dropdown improvements */
+    .notification-item {
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+    
+    .notification-item:hover {
+        background-color: #f8f9fa !important;
+    }
+    
+    .notification-item .text-muted {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Ensure dropdown stays within viewport */
+    .dropdown-menu-lg {
+        max-width: 90vw !important;
+    }
+    
+    @media (min-width: 768px) {
+        .dropdown-menu-lg {
+            max-width: 400px !important;
+        }
+    }
+    
+    /* Custom scrollbar for notification list */
+    [data-simplebar] {
+        overflow-x: hidden !important;
+    }
+    
+    [data-simplebar]::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    [data-simplebar]::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    [data-simplebar]::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+    
+    [data-simplebar]::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    // Initialize Lucide icons after Livewire updates
+    document.addEventListener('livewire:init', () => {
+        Livewire.hook('morph.updated', ({ el, component }) => {
+            if (window.lucide && window.lucide.createIcons) {
+                window.lucide.createIcons({ icons: window.lucide.icons });
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.lucide && window.lucide.createIcons) {
+            window.lucide.createIcons({ icons: window.lucide.icons });
+        }
+    });
+</script>
+@endpush

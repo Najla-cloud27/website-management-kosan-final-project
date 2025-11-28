@@ -1,0 +1,310 @@
+<div>
+    <!-- Breadcrumb Section -->
+    <section class="breadcrumb-wrapper fix bg-cover" style="background-image: url('{{ asset('travo/img/breadcrumb/breadcrumb.jpg') }}');">
+        <div class="container">
+            <div class="row">
+                <div class="page-heading">
+                    <h2>Kamar Tersedia</h2>
+                    <ul class="breadcrumb-list">
+                        <li><a href="{{ url('/') }}">Beranda</a></li>
+                        <li><i class="fa-solid fa-chevrons-right"></i></li>
+                        <li class="active">Kamar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Section -->
+    <section class="tour-section section-padding fix">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="tour-wrapper">
+                        <div class="row g-4">
+                            @forelse($rooms as $room)
+                            <div class="col-md-6 wow fadeInUp" data-wow-delay=".{{ $loop->index * 0.3 }}s">
+                                <div class="destination-card-items style-2">
+                                    <div class="destination-thumb">
+                                        <img src="{{ room_image_url($room->image_url) }}" alt="{{ $room->name }}">
+                                        @if($room->status === 'available')
+                                        <div class="ratting">
+                                            <i class="fa-solid fa-star"></i>
+                                            <span>{{ number_format($room->price / 1000000, 1) }}</span>
+                                        </div>
+                                        @else
+                                        <div class="ratting" style="background: #dc3545;">
+                                            <i class="fa-solid fa-ban"></i>
+                                            <span>{{ ucfirst($room->status) }}</span>
+                                        </div>
+                                        @endif
+                                        <div class="heart">
+                                            <i class="fa-solid fa-heart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="destination-content">
+                                        <h4>
+                                            <a href="{{ route('rooms.show', $room->slug) }}">{{ $room->name }}</a>
+                                        </h4>
+                                        <span class="place">
+                                            <i class="fa-solid fa-location-dot"></i> 
+                                            {{ $room->floor ? 'Lantai ' . $room->floor : 'Lokasi Premium' }}
+                                        </span>
+                                        <h5>Rp {{ number_format($room->price, 0, ',', '.') }}<span>/Bulan</span></h5>
+                                        <div class="booking">
+                                            <span>
+                                                <i class="fa-solid fa-expand"></i> 
+                                                {{ $room->size ?? '3x4' }} meter
+                                            </span>
+                                            <a href="{{ route('rooms.show', $room->slug) }}" class="theme-btn">
+                                                Detail 
+                                                <img src="{{ asset('travo/img/icon/theme-arrow.svg') }}" alt="img">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @empty
+                            <div class="col-12">
+                                <div class="alert alert-info text-center">
+                                    <i class="fa-solid fa-info-circle"></i> 
+                                    Tidak ada kamar yang tersedia saat ini.
+                                </div>
+                            </div>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    @if($rooms->hasPages())
+                    <div class="page-nav-wrap">
+                        <ul>
+                            @if ($rooms->onFirstPage())
+                            <li class="disabled"><span class="page-numbers"><i class="fal fa-long-arrow-left"></i></span></li>
+                            @else
+                            <li><a class="page-numbers" href="{{ $rooms->previousPageUrl() }}" wire:navigate><i class="fal fa-long-arrow-left"></i></a></li>
+                            @endif
+
+                            @foreach ($rooms->getUrlRange(1, $rooms->lastPage()) as $page => $url)
+                            @if ($page == $rooms->currentPage())
+                            <li class="active"><a class="page-numbers" href="#">{{ sprintf('%02d', $page) }}</a></li>
+                            @else
+                            <li><a class="page-numbers" href="{{ $url }}" wire:navigate>{{ sprintf('%02d', $page) }}</a></li>
+                            @endif
+                            @endforeach
+
+                            @if ($rooms->hasMorePages())
+                            <li><a class="page-numbers" href="{{ $rooms->nextPageUrl() }}" wire:navigate><i class="fal fa-long-arrow-right"></i></a></li>
+                            @else
+                            <li class="disabled"><span class="page-numbers"><i class="fal fa-long-arrow-right"></i></span></li>
+                            @endif
+                        </ul>
+                    </div>
+                    @endif
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <div class="main-sidebar mt-0">
+                        <!-- Search Widget -->
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title">
+                                <h3>Cari Kamar</h3>
+                            </div>
+                            <div class="search-widget">
+                                <form wire:submit.prevent="$refresh">
+                                    <input type="text" 
+                                           wire:model.live.debounce.300ms="search" 
+                                           placeholder="Cari nama kamar...">
+                                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title">
+                                <h3>Status Kamar</h3>
+                            </div>
+                            <div class="categories-list">
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="radio" 
+                                                   wire:model.live="statusFilter" 
+                                                   value="">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Semua Status</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="radio" 
+                                                   wire:model.live="statusFilter" 
+                                                   value="available">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Tersedia</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="radio" 
+                                                   wire:model.live="statusFilter" 
+                                                   value="occupied">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Terisi</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="radio" 
+                                                   wire:model.live="statusFilter" 
+                                                   value="maintenance">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Maintenance</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title style-2">
+                                <h3>Range Harga</h3>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="price-range-wrapper">
+                                <div class="price-inputs">
+                                    <div class="price-text pt-4 d-flex gap-3">
+                                        <div class="form-group">
+                                            <label for="minPrice">Min:</label>
+                                            <input type="number" 
+                                                   id="minPrice"
+                                                   wire:model.live.debounce.500ms="minPrice" 
+                                                   class="form-control"
+                                                   placeholder="500000">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="maxPrice">Max:</label>
+                                            <input type="number" 
+                                                   id="maxPrice"
+                                                   wire:model.live.debounce.500ms="maxPrice" 
+                                                   class="form-control"
+                                                   placeholder="2000000">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floor Filter -->
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title">
+                                <h3>Lantai</h3>
+                            </div>
+                            <div class="categories-list">
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="checkbox" 
+                                                   wire:model.live="floorFilter" 
+                                                   value="1">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Lantai 1</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="checkbox" 
+                                                   wire:model.live="floorFilter" 
+                                                   value="2">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Lantai 2</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-single d-flex justify-content-between align-items-center">
+                                    <span class="d-flex gap-xl-3 gap-2 align-items-center">
+                                        <span class="checkbox-area d-center">
+                                            <input type="checkbox" 
+                                                   wire:model.live="floorFilter" 
+                                                   value="3">
+                                            <span class="checkmark d-center"></span>
+                                        </span>
+                                        <span class="text-color">Lantai 3</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Reset Filters -->
+                        <div class="single-sidebar-widget">
+                            <button wire:click="resetFilters" class="theme-btn w-100">
+                                <i class="fa-solid fa-rotate-right"></i> Reset Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@push('styles')
+<style>
+    .search-widget form {
+        position: relative;
+    }
+    
+    .search-widget input {
+        width: 100%;
+        padding: 15px 50px 15px 20px;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+    }
+    
+    .search-widget button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #2196F3;
+        border: none;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .price-inputs .form-group {
+        flex: 1;
+    }
+    
+    .price-inputs label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .price-inputs .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+    }
+    
+    .page-nav-wrap ul li.disabled span {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
+@endpush
